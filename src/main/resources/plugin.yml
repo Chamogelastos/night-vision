@@ -1,8 +1,8 @@
 name: NightVision
-version: '1.0.0'
-main: winlyps.nightVision.NightVision
-api-version: '1.16'
-authors: [ Winlyps ]
+version: "${version}"
+main: io.github.Chamogelastos.nightvision.NightVision
+api-version: '1.21'
+authors: [ "Chamogelastos" ]
 commands:
   gamma:
     aliases: [nv]

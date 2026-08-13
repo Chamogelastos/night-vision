@@ -1,0 +1,23 @@
+# NightVision Plugin Configuration
+
+# Set to true to require players to have the 'nightvision.use' permission.
+require-permission: false
+
+# Potion effect settings
+effects:
+  # If true, shows Night Vision particles around the player.
+  show-particles: false
+  # If true, shows the Night Vision icon in the player's HUD.
+  show-icon: false
+  # If true, prevents players from removing the Night Vision effect by drinking milk.
+  prevent-milk-removal: true
+
+# If true, the plugin will apply the gamma night vision effect to players automatically on join.
+apply-on-join: false
+
+messages:
+  prefix: "&8[&bNightVision&8] &r"
+  night-vision-enabled: "&aGamma has been enabled."
+  night-vision-disabled: "&cGamma has been disabled."
+  no-permission: "&cYou do not have permission to use this command."
+  player-only: "&cThis command can only be run by a player."
