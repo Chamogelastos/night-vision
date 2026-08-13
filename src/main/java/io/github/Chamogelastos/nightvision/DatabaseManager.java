@@ -44,29 +44,6 @@ public class DatabaseManager {
         }
     }
 
-    public boolean isNightVisionUser(UUID uuid) {
-        var sql = "SELECT uuid FROM players WHERE uuid = ?;";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            statement.setString(1, uuid.toString());
-            statement.executeQuery();
-            return statement.getResultSet().next();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void addNightVisionUser(UUID uuid) {
-        var sql = "INSERT INTO players(uuid) varUES(?);";
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, uuid.toString());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void removeNightVisionUser(UUID uuid) {
         var sql = "DELETE FROM players WHERE uuid = ?;";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {

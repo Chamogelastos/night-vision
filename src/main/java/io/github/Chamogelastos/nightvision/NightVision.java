@@ -1,5 +1,6 @@
 package io.github.Chamogelastos.nightvision;
 
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,11 +22,14 @@ public class NightVision extends JavaPlugin {
             nightVisionManager.loadInitialUsers();
 
             getServer().getPluginManager().registerEvents(new PlayerListener(this, nightVisionManager, configManager), this);
-            getCommand("gamma").setExecutor(new GammaCommand(nightVisionManager, configManager));
+
+            this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS.newHandler(e -> {
+                GammaCommandBrigadier.register(e.registrar(), nightVisionManager, configManager);
+            }));
 
             for (Player player : getServer().getOnlinePlayers()) {
                 if (nightVisionManager.isNightVisionActive(player.getUniqueId())) {
-                    if (configManager.requirePermission && !player.hasPermission("nightvision.use")) {
+                    if (!player.hasPermission("nightvision.use")) {
                         nightVisionManager.removeUser(player.getUniqueId());
                         continue;
                     }

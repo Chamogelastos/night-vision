@@ -8,4 +8,4 @@ commands:
     aliases: [nv]
 permissions:
   nightvision.use:
-    default: op
+    default: not op

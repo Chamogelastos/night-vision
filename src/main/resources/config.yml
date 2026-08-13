@@ -1,8 +1,5 @@
 # NightVision Plugin Configuration
 
-# Set to true to require players to have the 'nightvision.use' permission.
-require-permission: false
-
 # Potion effect settings
 effects:
   # If true, shows Night Vision particles around the player.
@@ -16,8 +13,8 @@ effects:
 apply-on-join: false
 
 messages:
-  prefix: "&8[&bNightVision&8] &r"
-  night-vision-enabled: "&aGamma has been enabled."
-  night-vision-disabled: "&cGamma has been disabled."
-  no-permission: "&cYou do not have permission to use this command."
-  player-only: "&cThis command can only be run by a player."
+  prefix: "<dark_blue>NightVision<r>| "
+  night-vision-enabled: "<green>Gamma has been enabled."
+  night-vision-disabled: "<red>Gamma has been disabled."
+  no-permission: "<red>You do not have permission to use this command."
+  player-only: "<red>This command can only be run by a player."

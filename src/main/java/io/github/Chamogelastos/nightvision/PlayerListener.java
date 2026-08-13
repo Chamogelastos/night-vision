@@ -31,7 +31,7 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        if (configManager.requirePermission && !player.hasPermission("nightvision.use")) {
+        if (!player.hasPermission("nightvision.use")) {
             if (nightVisionManager.isNightVisionActive(player.getUniqueId())) {
                 nightVisionManager.removeUser(player.getUniqueId());
             }

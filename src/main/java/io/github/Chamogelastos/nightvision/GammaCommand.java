@@ -1,12 +1,16 @@
 package io.github.Chamogelastos.nightvision;
 
+import net.strokkur.commands.Aliases;
+import net.strokkur.commands.Executes;
+import net.strokkur.commands.permission.Permission;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class GammaCommand implements CommandExecutor {
+@net.strokkur.commands.Command("gamma")
+@Aliases({"nv", "nightvision"})
+@Permission("nightvision.use")
+public class GammaCommand {
 
     private final NightVisionManager nightVisionManager;
     private final ConfigManager configManager;
@@ -16,16 +20,11 @@ public class GammaCommand implements CommandExecutor {
         this.configManager = configManager;
     }
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    @Executes
+    public void onCommand(CommandSender sender) {
         if (!(sender instanceof Player)) {
             Bukkit.getConsoleSender().sendMessage(configManager.getFormattedMessage(configManager.playerOnly));
-            return true;
-        }
-
-        if (configManager.requirePermission && !sender.hasPermission("nightvision.use")) {
-            sender.sendMessage(configManager.getFormattedMessage(configManager.noPermission));
-            return true;
+            return;
         }
 
         boolean nightVisionActive = nightVisionManager.isNightVisionActive(((Player) sender).getUniqueId());
@@ -47,6 +46,5 @@ public class GammaCommand implements CommandExecutor {
             sender.sendMessage(configManager.getFormattedMessage(configManager.nightVisionDisabled));
         }
 
-        return true;
     }
 }

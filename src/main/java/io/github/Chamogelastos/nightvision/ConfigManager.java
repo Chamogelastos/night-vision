@@ -1,6 +1,7 @@
 package io.github.Chamogelastos.nightvision;
 
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -17,7 +18,6 @@ public class ConfigManager {
 
     private final File dataFolder;
 
-    boolean requirePermission = false;
     boolean showParticles = false;
     boolean showIcon = false;
     boolean preventMilkRemoval = true;
@@ -27,7 +27,6 @@ public class ConfigManager {
     String reloaded;
     String nightVisionDisabled;
     String nightVisionEnabled;
-    String noPermission;
     String playerOnly;
 
     public ConfigManager(NightVision plugin) {
@@ -43,20 +42,18 @@ public class ConfigManager {
         YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 
         applyOnJoin = config.getBoolean("apply-on-join", false);
-        requirePermission = config.getBoolean("require-permission", false);
         showParticles = config.getBoolean("effects.show-particles", false);
         showIcon = config.getBoolean("effects.show-icon", false);
         preventMilkRemoval = config.getBoolean("effects.prevent-milk-removal", true);
-        prefix = config.getString("messages.prefix", "&8[&bNightVision&8] &r");
-        reloaded = config.getString("messages.reloaded", "&aConfiguration reloaded successfully.");
-        nightVisionEnabled = config.getString("messages.night-vision-enabled", "&aNight Vision has been enabled.");
-        nightVisionDisabled = config.getString("messages.night-vision-disabled", "&cNight Vision has been disabled.");
-        noPermission = config.getString("messages.no-permission", "&cYou do not have permission to use this command.");
-        playerOnly = config.getString("messages.player-only", "&cThis command can only be run by a player.");
+        prefix = config.getString("messages.prefix", "<dark_gray>[<aqua>NightVision<dark_gray>] <r>");
+        reloaded = config.getString("messages.reloaded", "<green>Configuration reloaded successfully.");
+        nightVisionEnabled = config.getString("messages.night-vision-enabled", "<green>Night Vision has been enabled.");
+        nightVisionDisabled = config.getString("messages.night-vision-disabled", "<red>Night Vision has been disabled.");
+        playerOnly = config.getString("messages.player-only", "<red>This command can only be run by a player.");
     }
 
-    public String getFormattedMessage(String message) {
-        return ChatColor.translateAlternateColorCodes('&', prefix + message);
+    public Component getFormattedMessage(String message) {
+        return MiniMessage.miniMessage().deserialize(message);
     }
 
     private WatchService watcher;
