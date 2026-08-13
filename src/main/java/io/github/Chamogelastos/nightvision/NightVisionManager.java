@@ -25,7 +25,7 @@ public class NightVisionManager {
         activeUsers.addAll(databaseManager.getNightVisionUsers());
     }
 
-    public boolean toggleNightVision(Player player, boolean showIcon) {
+    public void toggleNightVision(Player player, boolean showIcon) {
         var uuid = player.getUniqueId();
         if (activeUsers.contains(uuid)) {
             activeUsers.remove(uuid);
@@ -36,7 +36,6 @@ public class NightVisionManager {
             applyEffect(player, showIcon);
             databaseManager.removeNightVisionUser(uuid);
         }
-        return false;
     }
 
     public void applyEffect(Player player, boolean showIcon) {
