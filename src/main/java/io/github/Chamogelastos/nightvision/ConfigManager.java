@@ -54,7 +54,7 @@ public class ConfigManager {
     }
 
     public Component getFormattedMessage(String message) {
-        return MiniMessage.miniMessage().deserialize(message);
+        return MiniMessage.miniMessage().deserialize(prefix + message);
     }
 
     private void createDefaultConfig() {

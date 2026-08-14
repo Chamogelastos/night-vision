@@ -16,5 +16,4 @@ messages:
   prefix: "<dark_blue>NightVision<r>| "
   night-vision-enabled: "<green>Gamma has been enabled."
   night-vision-disabled: "<red>Gamma has been disabled."
-  no-permission: "<red>You do not have permission to use this command."
   player-only: "<red>This command can only be run by a player."
