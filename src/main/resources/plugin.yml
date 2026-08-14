@@ -3,9 +3,8 @@ version: "${version}"
 main: io.github.Chamogelastos.nightvision.NightVision
 api-version: '1.21'
 authors: [ "Chamogelastos" ]
-commands:
-  gamma:
-    aliases: [nv]
 permissions:
   nightvision.use:
-    default: not op
+    default: true
+  nightvision.reload:
+    default: op

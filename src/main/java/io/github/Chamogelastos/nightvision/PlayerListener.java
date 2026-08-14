@@ -25,23 +25,20 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        boolean shouldHaveNightVisionOnJoin = configManager.applyOnJoin || nightVisionManager.isNightVisionActive(player.getUniqueId());
 
-        if (!shouldHaveNightVisionOnJoin) {
-            return;
-        }
-
-        if (!player.hasPermission("nightvision.use")) {
-            if (nightVisionManager.isNightVisionActive(player.getUniqueId())) {
-                nightVisionManager.removeUser(player.getUniqueId());
+        if (configManager.applyOnJoin) {
+            if (player.hasPermission("nightvision.use")) {
+                nightVisionManager.enableEffectOnJoin(player);
             }
             return;
         }
 
-        if (configManager.applyOnJoin) {
-            nightVisionManager.enableEffectOnJoin(player);
-        } else {
-            nightVisionManager.applyEffect(player, configManager.showIcon);
+        if (nightVisionManager.isNightVisionActive(player.getUniqueId())) {
+            if (!player.hasPermission("nightvision.use")) {
+                nightVisionManager.removeUser(player.getUniqueId());
+            } else {
+                nightVisionManager.applyEffect(player, configManager.showIcon);
+            }
         }
     }
 
@@ -69,7 +66,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         if (nightVisionManager.isNightVisionActive(event.getPlayer().getUniqueId())) {
-            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            plugin.getServer().getGlobalRegionScheduler().runDelayed(plugin, _ -> {
                 nightVisionManager.applyEffect(event.getPlayer(), configManager.showIcon);
             }, 1L);
         }

@@ -8,13 +8,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
-import java.util.Objects;
 
 public class ConfigManager {
 
     private final NightVision plugin;
-    public Runnable onConfigReload;
 
     private final File dataFolder;
 
@@ -50,44 +47,14 @@ public class ConfigManager {
         nightVisionEnabled = config.getString("messages.night-vision-enabled", "<green>Night Vision has been enabled.");
         nightVisionDisabled = config.getString("messages.night-vision-disabled", "<red>Night Vision has been disabled.");
         playerOnly = config.getString("messages.player-only", "<red>This command can only be run by a player.");
+        
+        if (plugin.isEnabled()) {
+            plugin.reloadPlayerEffects();
+        }
     }
 
     public Component getFormattedMessage(String message) {
         return MiniMessage.miniMessage().deserialize(message);
-    }
-
-    private WatchService watcher;
-
-    public void startWatcher() throws IOException, InterruptedException {
-        watcher = FileSystems.getDefault().newWatchService();
-
-        while (true) {
-            WatchKey key;
-            try {
-                key = watcher.take();
-            } catch (ClosedWatchServiceException _) {
-                break; // Exit loop if the service is closed
-            }
-            for (var event : key.pollEvents()) {
-                var kind = event.kind();
-                if (kind == StandardWatchEventKinds.OVERFLOW) continue;
-                var fileName = event.context();
-                if (Objects.equals(fileName.toString(), "config.yml")) {
-                    plugin.getServer().getScheduler().runTask(plugin, () -> {
-                        loadConfig();
-                        onConfigReload.run();
-                    });
-                }
-            }
-            if (!key.reset()) {
-                break;
-            }
-        }
-
-    }
-
-    public void stopWatcher() throws IOException {
-        watcher.close();
     }
 
     private void createDefaultConfig() {

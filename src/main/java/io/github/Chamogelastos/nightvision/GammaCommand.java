@@ -3,7 +3,6 @@ package io.github.Chamogelastos.nightvision;
 import net.strokkur.commands.Aliases;
 import net.strokkur.commands.Executes;
 import net.strokkur.commands.permission.Permission;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -23,12 +22,12 @@ public class GammaCommand {
     @Executes
     public void onCommand(CommandSender sender) {
         if (!(sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(configManager.getFormattedMessage(configManager.playerOnly));
+            sender.sendMessage(configManager.getFormattedMessage(configManager.playerOnly));
             return;
         }
 
         boolean nightVisionActive = nightVisionManager.isNightVisionActive(((Player) sender).getUniqueId());
-        var hasEffect = ((Player) sender).hasPotionEffect(org.bukkit.potion.PotionEffectType.NIGHT_VISION);
+        boolean hasEffect = ((Player) sender).hasPotionEffect(org.bukkit.potion.PotionEffectType.NIGHT_VISION);
 
         // If the effect is not active according to the plugin, enable it.
         if (!nightVisionActive) {
@@ -46,5 +45,12 @@ public class GammaCommand {
             sender.sendMessage(configManager.getFormattedMessage(configManager.nightVisionDisabled));
         }
 
+    }
+
+    @Executes("reload")
+    @Permission("nightvision.reload")
+    public void onReload(CommandSender sender) {
+        configManager.loadConfig();
+        sender.sendMessage(configManager.getFormattedMessage(configManager.reloaded));
     }
 }

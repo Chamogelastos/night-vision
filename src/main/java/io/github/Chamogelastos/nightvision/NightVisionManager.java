@@ -7,6 +7,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class NightVisionManager {
 
@@ -18,11 +19,11 @@ public class NightVisionManager {
         this.configManager = configManager;
     }
 
-    private List<UUID> activeUsers = new ArrayList<>();
+    private final List<UUID> activeUsers = new ArrayList<>();
 
-    public void loadInitialUsers() {
+    public CompletableFuture<Void> loadInitialUsers() {
         activeUsers.clear();
-        activeUsers.addAll(databaseManager.getNightVisionUsers());
+        return databaseManager.getNightVisionUsers().thenAccept(activeUsers::addAll);
     }
 
     public void toggleNightVision(Player player, boolean showIcon) {
@@ -34,7 +35,7 @@ public class NightVisionManager {
         } else {
             activeUsers.add(uuid);
             applyEffect(player, showIcon);
-            databaseManager.removeNightVisionUser(uuid);
+            databaseManager.addNightVisionUser(uuid);
         }
     }
 
